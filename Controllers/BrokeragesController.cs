@@ -21,7 +21,7 @@ namespace Lab4.Controllers
         }
 
         // GET: Brokerages
-        public async Task<IActionResult> Index(int? ID)
+        public async Task<IActionResult> Index(string ID)
         {
             var viewModel = new BrokeragesViewModel
             {
@@ -33,13 +33,14 @@ namespace Lab4.Controllers
 
             if (ID != null)
             {
-                ViewData["ClientID"] = ID;
-                viewModel.Subscriptions = viewModel.Clients.Where(
-                    x => x.Id == ID).Single().Subscriptions;
+                ViewData["BrokerageID"] = ID;
+                viewModel.Subscriptions = viewModel.Brokerages.Where(
+                    x => x.Id == ID.ToString()).Single().Subscriptions;
             }
 
             return View(viewModel);
         }
+
 
         // GET: Brokerages/Details/5
         public async Task<IActionResult> Details(string id)
@@ -82,7 +83,7 @@ namespace Lab4.Controllers
         }
 
         // GET: Brokerages/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -118,7 +119,7 @@ namespace Lab4.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BrokerageExists(brokerage.Id))
+                    if (id != brokerage.Id)
                     {
                         return NotFound();
                     }

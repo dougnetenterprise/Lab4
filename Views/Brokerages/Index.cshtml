@@ -13,21 +13,29 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Brokerages)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Clients)
+                Fee
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model.Brokerages) {
-        <tr>
+            string selectedRow = "";
+            if (item.Id == ViewData["BrokerageID"]?.ToString())
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
             <td>
-                @Html.DisplayFor(modelItem => item.Subscriptions)
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Fee)
+            </td>
+            <td>
+                <a asp-action="Index" asp-route-id="@item.Id">Select</a> |
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
@@ -36,3 +44,20 @@
 }
     </tbody>
 </table>
+@if (Model.Subscriptions != null)
+{
+    <h3>
+        Client ID's':
+    </h3>
+    <table class="table">
+        
+        @foreach (var item in Model.Subscriptions)
+        {
+            <tr>
+              <td>
+                 @Html.DisplayFor(modelItem => item.ClientId)
+             </td>   
+           </tr>
+        }  
+    </table>
+}
